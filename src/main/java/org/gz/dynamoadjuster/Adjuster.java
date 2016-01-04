@@ -18,9 +18,9 @@ public class Adjuster {
         if (currentProvisionThroughput > consumedThroughput * MARGIN
                 || currentProvisionThroughput < consumedThroughput * MARGIN) {
             if (hardlimit != null) {
-                updater.updateThroughput(Math.min(consumedThroughput * MARGIN, hardlimit));
+                updater.updateReadThroughput(Math.min(consumedThroughput * MARGIN, hardlimit));
             } else {
-                updater.updateThroughput(consumedThroughput * MARGIN);
+                updater.updateReadThroughput(consumedThroughput * MARGIN);
             }
         }
     }

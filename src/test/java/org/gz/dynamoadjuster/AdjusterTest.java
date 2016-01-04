@@ -35,7 +35,7 @@ public class AdjusterTest {
         ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
 
         adjuster.action();
-        verify(updater, times(1)).updateThroughput(argument.capture());
+        verify(updater, times(1)).updateReadThroughput(argument.capture());
 
         assertEquals(consumed * Adjuster.MARGIN, argument.getValue(), 0.00001);
     }
@@ -48,7 +48,7 @@ public class AdjusterTest {
         ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
 
         adjuster.action();
-        verify(updater, times(1)).updateThroughput(argument.capture());
+        verify(updater, times(1)).updateReadThroughput(argument.capture());
 
         assertEquals(consumed * Adjuster.MARGIN, argument.getValue(), 0.00001);
     }
@@ -63,7 +63,7 @@ public class AdjusterTest {
         ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
 
         adjuster.action();
-        verify(updater, times(1)).updateThroughput(argument.capture());
+        verify(updater, times(1)).updateReadThroughput(argument.capture());
 
         assertEquals(hardlimit, argument.getValue(), 0.00001);
     }
