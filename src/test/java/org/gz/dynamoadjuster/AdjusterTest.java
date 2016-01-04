@@ -32,7 +32,7 @@ public class AdjusterTest {
         when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 1.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
-        ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
         adjuster.action();
         verify(updater, times(1)).updateReadThroughput(argument.capture());
@@ -45,7 +45,7 @@ public class AdjusterTest {
         when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 10.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
-        ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
         adjuster.action();
         verify(updater, times(1)).updateReadThroughput(argument.capture());
@@ -60,7 +60,7 @@ public class AdjusterTest {
         when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 20.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
-        ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
         adjuster.action();
         verify(updater, times(1)).updateReadThroughput(argument.capture());
