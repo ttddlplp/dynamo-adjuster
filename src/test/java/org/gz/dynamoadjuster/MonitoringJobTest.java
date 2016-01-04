@@ -11,10 +11,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 
-public class AdjusterTest {
+public class MonitoringJobTest {
 
     @InjectMocks
-    private Adjuster adjuster;
+    private MonitoringJob monitoringJob;
 
     @Mock
     private Updater updater;
@@ -34,10 +34,10 @@ public class AdjusterTest {
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
         ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
-        adjuster.action();
+        monitoringJob.execute(null);
         verify(updater, times(1)).updateReadThroughput(argument.capture());
 
-        assertEquals(consumed * Adjuster.MARGIN, argument.getValue(), 0.00001);
+        assertEquals(Math.ceil(consumed * MonitoringJob.MARGIN), argument.getValue(), 0.00001);
     }
 
     @Test
@@ -47,22 +47,36 @@ public class AdjusterTest {
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
         ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
-        adjuster.action();
+        monitoringJob.execute(null);
         verify(updater, times(1)).updateReadThroughput(argument.capture());
 
-        assertEquals(consumed * Adjuster.MARGIN, argument.getValue(), 0.00001);
+        assertEquals(Math.ceil(consumed * MonitoringJob.MARGIN), argument.getValue(), 0.00001);
+    }
+
+    @Test
+    public void testConsumedIsZero() throws Exception {
+        when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
+        double consumed = 0.0;
+        when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
+
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
+
+        monitoringJob.execute(null);
+        verify(updater, times(1)).updateReadThroughput(argument.capture());
+
+        assertEquals(1.0, argument.getValue(), 0.00001);
     }
 
     @Test
     public void testCanOnlyIncreaseToHardlimit() throws Exception {
         double hardlimit = 10.0;
-        adjuster.setHardlimit(hardlimit);
+        monitoringJob.setHardlimit(hardlimit);
         when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 20.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
         ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(long.class);
 
-        adjuster.action();
+        monitoringJob.execute(null);
         verify(updater, times(1)).updateReadThroughput(argument.capture());
 
         assertEquals(hardlimit, argument.getValue(), 0.00001);

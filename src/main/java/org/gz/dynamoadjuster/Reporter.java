@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
-public class Reporter {
+class Reporter {
     private AmazonCloudWatchClient amazonCloudWatchClient;
     private Dimension tableNameDimension;
 

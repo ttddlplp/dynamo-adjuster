@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 
-public class Updater {
+class Updater {
     private DynamoDB dynamoDB;
     private String tableName;
 

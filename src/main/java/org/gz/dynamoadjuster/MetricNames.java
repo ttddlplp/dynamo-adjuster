@@ -1,6 +1,6 @@
 package org.gz.dynamoadjuster;
 
-public enum MetricNames {
+enum MetricNames {
     CONSUMED_READ_CAPACITY_UNITS("ConsumedReadCapacityUnits"),
     PROVISIONED_READ_CAPACITY_UNITS("ProvisionedReadCapacityUnits");
 
