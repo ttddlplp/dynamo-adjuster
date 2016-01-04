@@ -11,7 +11,7 @@ public class Adjuster {
     }
 
     public void action() {
-        double currentProvisionThroughput = reporter.getCurrentReadProvisionThroughput();
+        double currentProvisionThroughput = reporter.getReadProvisionThroughput();
         double consumedThroughput = reporter.getConsumedReadThroughput();
 
         if (currentProvisionThroughput > consumedThroughput * MARGIN

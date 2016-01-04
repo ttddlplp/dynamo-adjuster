@@ -29,7 +29,7 @@ public class AdjusterTest {
 
     @Test
     public void testProvisionThroughputMuchHigherThanReal() throws Exception {
-        when(reporter.getCurrentReadProvisionThroughput()).thenReturn(5.0);
+        when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 1.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
         ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);
@@ -42,7 +42,7 @@ public class AdjusterTest {
 
     @Test
     public void testProvisionThroughputLowerThanRealPlusMargin() throws Exception {
-        when(reporter.getCurrentReadProvisionThroughput()).thenReturn(5.0);
+        when(reporter.getReadProvisionThroughput()).thenReturn(5.0);
         double consumed = 10.0;
         when(reporter.getConsumedReadThroughput()).thenReturn(consumed);
         ArgumentCaptor<Double> argument = ArgumentCaptor.forClass(double.class);

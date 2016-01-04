@@ -12,24 +12,32 @@ import java.util.Optional;
 
 public class Reporter {
     private AmazonCloudWatchClient amazonCloudWatchClient;
+    private Dimension tableNameDimension;
 
-    public Reporter(AmazonCloudWatchClient amazonCloudWatchClient, String TEST_TABLE_NAME) {
+    public Reporter(AmazonCloudWatchClient amazonCloudWatchClient, String tableName) {
         this.amazonCloudWatchClient = amazonCloudWatchClient;
+        tableNameDimension = new Dimension();
+        tableNameDimension.setName("TableName");
+        tableNameDimension.setValue(tableName);
     }
 
-    public double getCurrentReadProvisionThroughput() {
-        Dimension instanceDimension = new Dimension();
-        instanceDimension.setName("TableName");
-        instanceDimension.setValue("test-table");
+    public double getReadProvisionThroughput() {
+        return getLatestMetric(MetricNames.PROVISIONED_READ_CAPACITY_UNITS);
+    }
 
+    public double getConsumedReadThroughput() {
+        return getLatestMetric(MetricNames.CONSUMED_READ_CAPACITY_UNITS);
+    }
+
+    private double getLatestMetric(MetricNames metricName) {
         GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
-                .withStartTime(new Date(new Date().getTime() - 600 * 1000))
-                .withNamespace("AWS/DynamoDB")
-                .withPeriod(300)
-                .withMetricName("ConsumedReadCapacityUnits")
-                .withStatistics("Average")
-                .withDimensions(Arrays.asList(instanceDimension))
-                .withEndTime(new Date());
+            .withStartTime(new Date(new Date().getTime() - 600 * 1000))
+            .withNamespace("AWS/DynamoDB")
+            .withPeriod(300)
+            .withMetricName(metricName.getName())
+            .withStatistics("Average")
+            .withDimensions(Arrays.asList(tableNameDimension))
+            .withEndTime(new Date());
 
         GetMetricStatisticsResult getMetricStatisticsResult = amazonCloudWatchClient.getMetricStatistics(request);
         Optional<Datapoint> latest = getMetricStatisticsResult.getDatapoints()
@@ -40,9 +48,5 @@ public class Reporter {
         } else {
             return 0;
         }
-    }
-
-    public double getConsumedReadThroughput() {
-        return 0;
     }
 }
