@@ -1,6 +1,7 @@
 package org.gz.dynamoadjuster;
 
 public class Adjuster {
+    protected static final double MARGIN = 1.1;
     private Updater updater;
     private Reporter reporter;
 
@@ -10,11 +11,12 @@ public class Adjuster {
     }
 
     public void action() {
-        double currentProvisionThroughput = reporter.getCurrentProvisionThroughput();
-        double consumedThroughput = reporter.getConsumedThroughput();
+        double currentProvisionThroughput = reporter.getCurrentReadProvisionThroughput();
+        double consumedThroughput = reporter.getConsumedReadThroughput();
 
-        if (currentProvisionThroughput > consumedThroughput * 1.1) {
-            updater.updateThroughput(consumedThroughput * 1.1);
+        if (currentProvisionThroughput > consumedThroughput * MARGIN
+                || currentProvisionThroughput < consumedThroughput * MARGIN) {
+            updater.updateThroughput(consumedThroughput * MARGIN);
         }
     }
 }
