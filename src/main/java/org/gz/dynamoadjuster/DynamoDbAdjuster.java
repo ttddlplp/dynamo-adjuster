@@ -28,6 +28,7 @@ public class DynamoDbAdjuster {
     }
 
     public void start() {
+        System.out.println("starting");
         // define the job and tie it to our HelloJob class
         JobDetail job = newJob(MonitoringJob.class)
                 .withIdentity("job1", "group1")
@@ -59,7 +60,4 @@ public class DynamoDbAdjuster {
         }
     }
 
-    public static void main(String[] args) {
-        new DynamoDbAdjuster(new BasicAWSCredentials("AKIAJKOF44TXVIHQWDGQ", "oSstS5/nJKsawAGBmTXEEIM9HwYjhqKffEMyizS6"), "test-table");
-    }
 }

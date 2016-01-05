@@ -24,6 +24,8 @@ class MonitoringJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         double currentProvisionThroughput = reporter.getReadProvisionThroughput();
         double consumedThroughput = reporter.getConsumedReadThroughput();
+        System.out.println("currentProvisionThroughput" + currentProvisionThroughput);
+        System.out.println("consumedThroughput" + consumedThroughput);
 
         if (currentProvisionThroughput > consumedThroughput * MARGIN
                 || currentProvisionThroughput < consumedThroughput * MARGIN) {

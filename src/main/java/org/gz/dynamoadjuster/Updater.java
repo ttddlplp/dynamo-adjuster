@@ -14,6 +14,7 @@ class Updater {
     }
 
     public void updateReadThroughput(long throughput) {
+        System.out.println("updating to" + throughput);
         Table table = dynamoDB.getTable(tableName);
         table.updateTable(new ProvisionedThroughput().withReadCapacityUnits(throughput));
     }
